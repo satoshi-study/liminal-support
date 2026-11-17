@@ -86,7 +86,15 @@ footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: w
 <li>トランザクションID、購入日時、商品識別子</li>
 <li>サブスクリプションの状態（有効期限、更新状況、キャンセル状況）</li>
 </ul>
-<p>なお、クレジットカード番号等の決済情報は、Apple Inc. または Google LLC が管理しており、運営者は保持しません。</p>
+<p>Web 版でのご購入について、決済事業者（Stripe）から以下の情報を取得します。</p>
+<ul>
+<li>お客様を識別する番号（顧客ID）</li>
+<li>お支払い・ご契約を識別する番号</li>
+<li>購入日時、商品、金額</li>
+<li>ご契約の状態（契約期間、解約の予約の有無）</li>
+<li>返金・お支払いの取消し（チャージバック）の有無</li>
+</ul>
+<p>なお、クレジットカード番号等の決済情報は、Apple Inc.、Google LLC または Stripe が管理しており、運営者は保持しません。Web 版では、カード情報は Stripe の決済ページで直接入力していただき、運営者のサーバーを通りません。</p>
 <h3>2-5. チェキ関連データ</h3>
 <ul>
 <li>チェキ生成時にお客様が入力したポーズ・シチュエーションの指示内容</li>
@@ -168,6 +176,12 @@ footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: w
 <td>米国カリフォルニア州</td>
 <td>課金トランザクション情報</td>
 <td>Google Play Billing の処理</td>
+</tr>
+<tr>
+<td>Stripe（Stripe, Inc. 及びそのグループ会社）</td>
+<td>米国ほか</td>
+<td>アカウントを識別する番号、購入する商品、お支払いに関する情報（カード情報・メールアドレス等は、お客様が Stripe の決済ページで直接ご提供いただきます）</td>
+<td>Web 版でのお支払いの処理、ご契約の管理、不正利用の防止</td>
 </tr>
 <tr>
 <td>Google LLC（AdMob）</td>
@@ -265,6 +279,11 @@ footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: w
 <td>課金トランザクション情報、購入の利用状況データ（返金審査時）</td>
 </tr>
 <tr>
+<td>Stripe（Stripe, Inc. 及びそのグループ会社）</td>
+<td>米国ほか</td>
+<td>Web 版でのお支払い・ご契約に関する情報</td>
+</tr>
+<tr>
 <td>Google LLC（AdMob・Play Billing・Firebase）</td>
 <td>米国</td>
 <td>広告識別子・課金トランザクション情報・認証に必要なアカウント識別情報・アプリの利用状況等</td>
@@ -330,7 +349,7 @@ footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: w
 <td>対応完了から1年間（未対応のものは対応が完了するまで）。アカウント削除時にお客様との紐付けを削除</td>
 </tr>
 <tr>
-<td>購入通知の記録（Apple・Google からの通知）</td>
+<td>購入通知の記録（Apple・Google・Stripe からの通知）</td>
 <td>課金履歴と同じ</td>
 </tr>
 <tr>
@@ -343,7 +362,7 @@ footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: w
 <p>お客様がアカウントの削除を請求された場合、以下の処理を行います。</p>
 <ol>
 <li><strong>即時の論理削除（アクセス停止）</strong>：アカウント情報・会話ログ・会話要約・チェキ画像・関連する内部データへのアクセスを即時停止します。論理削除以降、当該データは本サービスの機能で利用・表示されず、運営者も通常の業務で参照しません（お客様ご自身による復元の手続きを除く）</li>
-<li><strong>サブスクリプションの解約について</strong>：アカウントを削除しても、App Store／Google Play のサブスクリプションは自動では解約されません。サブスクリプションの契約は App Store／Google Play で管理されており、運営者が代わりに解約することはできません。アカウント削除の前に、利用規約第6条7項の手順で解約してください。アカウントを削除した後でも、同じ手順でいつでも解約できます。解約しない限り課金は続きます</li>
+<li><strong>サブスクリプションの解約について</strong>：アカウントを削除しても、App Store／Google Play のサブスクリプションは自動では解約されません。サブスクリプションの契約は App Store／Google Play で管理されており、運営者が代わりに解約することはできません。アカウント削除の前に、利用規約第6条7項の手順で解約してください。アカウントを削除した後でも、同じ手順でいつでも解約できます。解約しない限り課金は続きます。Web 版でご契約のサブスクリプションは、アカウントの削除と同時に解約されます（返金はありません）</li>
 <li><strong>30日経過後の物理削除</strong>：論理削除から30日が経過した後、Firebase Authentication・Supabase データベース・Cloudflare R2 ストレージの各レイヤーから当該データを削除します（日次バッチで自動実行）</li>
 <li><strong>バックアップからの削除</strong>：データベースのバックアップに含まれるデータは、バックアップの保持期間（4週間）の経過により自然消失します</li>
 </ol>
@@ -371,6 +390,8 @@ footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: w
 <h2>10. Cookie・トラッキング</h2>
 <h3>アプリ内</h3>
 <p>本サービスのアプリでは、Cookieは使用しません。</p>
+<h3>Web 版</h3>
+<p>Web 版では、ログインの状態や音量などの設定を保つために、お使いのブラウザの保存領域（ローカルストレージ）を使用します。広告の配信や行動の計測のための Cookie・タグは使用しません。お支払いの際は Stripe の決済ページに移動し、Stripe が不正利用の防止等のために Cookie を使用します（詳しくは Stripe のプライバシーポリシーをご覧ください）。</p>
 <h3>広告トラッキング</h3>
 <p>無料プランのお客様、および任意で広告の視聴を選ばれたお客様には、Google AdMob を通じて広告を配信します。広告配信のため、iOS の App Tracking Transparency（ATT）に基づくトラッキング許可をお願いする場合があります。トラッキングを許可しなくても、本サービスの機能は制限されません（パーソナライズされていない広告が表示されます）。</p>
 <hr />
